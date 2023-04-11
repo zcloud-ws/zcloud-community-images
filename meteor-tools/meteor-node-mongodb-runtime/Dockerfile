@@ -1,0 +1,27 @@
+ARG BASE_IMAGE
+
+FROM $BASE_IMAGE as builder
+
+MAINTAINER zcloud.ws
+
+USER root
+
+RUN mkdir -p /tmp/tools/{.node,.mongodb} && chown zcloud:zcloud -R /tmp/tools
+
+USER zcloud
+
+RUN export DEV_BUNDLE_DIR="$(meteor node -e 'console.log(process.env.NPM_CONFIG_PREFIX)')" && \
+    cp -r $DEV_BUNDLE_DIR/{bin,lib} /tmp/tools/.node && \
+    cp -r $DEV_BUNDLE_DIR/mongodb/bin /tmp/tools/.mongodb/
+
+
+FROM docker.io/zcloudws/ubuntu-base:22.04
+
+COPY --from=builder /tmp/tools/.node /home/zcloud/.node
+COPY --from=builder /tmp/tools/.mongodb /home/zcloud/.mongodb
+
+RUN mkdir $HOME/bin && \
+    ln -s $HOME/.node/bin/{node,npm,npx} $HOME/bin/ && \
+    ln -s $HOME/.mongodb/bin/mongod $HOME/bin/
+
+
