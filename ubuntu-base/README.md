@@ -12,3 +12,5 @@ docker run --rm --name zcloud-ubuntu -it zcloudws/ubuntu-base:22.04
 - **Group**: zcloud
 - **UID**: 65123
 - **GID**: 65123
+
+_by [Quave](https://www.quave.com.br)_

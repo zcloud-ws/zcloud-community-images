@@ -5,3 +5,4 @@
 - [Meteor NodeJS](meteor-tools/meteor-node-runtime/README.md): Nodejs runtime from Meteor
 - [Meteor NodeJS with MongoDB](meteor-tools/meteor-node-mongodb-runtime/README.md): Nodejs runtime from Meteor with MongoDB
 
+_by [Quave](https://www.quave.com.br)_
