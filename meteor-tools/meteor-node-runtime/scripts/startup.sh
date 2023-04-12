@@ -13,6 +13,7 @@ if [ -f "${APP_DIR}/programs/server/package.json" ]; then
   cd "${APP_DIR}/programs/server/" && npm install --unsafe-perm && cd -
 fi
 
+export PORT=${PORT:-3000}
 if [ -f "/built_app/main.js" ]; then
   cd /built_app
   node main.js

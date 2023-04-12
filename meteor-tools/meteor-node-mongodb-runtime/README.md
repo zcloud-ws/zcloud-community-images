@@ -19,7 +19,7 @@ docker run --rm --name meteor-app -it \
 
 # MongoDB
 
-- Internal MongoDB run on port 27017
+- Internal MongoDB defult run on port 27017. use environment variable `MONGODB_PORT` to run on another port
 - To start internal MongoDB use environment variable `USE_INTERNAL_MONGODB=true`
 - To change default data directory use environment variable `MONGODB_DATA_DIR=/mongodb-data`
 - To pass extra arguments for `mongod` use environment variable `MONGODB_EXTRA_ARGS`

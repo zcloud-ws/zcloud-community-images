@@ -15,12 +15,13 @@ fi
 
 if [ "x${USE_INTERNAL_MONGODB}" != "x" ]; then
   MONGODB_DATA_DIR=${MONGODB_DATA_DIR:-/mongodb-data}
-  MONGODB_EXEC="mongod --dbpath ${MONGODB_DATA_DIR} --bind_ip 0.0.0.0 --syslog --port 27017 --fork ${MONGODB_EXTRA_ARGS}"
-  echo "Starting internal mongodb on port 27017 ..."
+  MONGODB_PORT=${MONGODB_PORT:-27017}
+  MONGODB_EXEC="mongod --dbpath ${MONGODB_DATA_DIR} --bind_ip 0.0.0.0 --syslog --port ${MONGODB_PORT} --fork ${MONGODB_EXTRA_ARGS}"
+  echo "Starting internal mongodb on port ${MONGODB_PORT} ..."
   ${MONGODB_EXEC}
   echo "Mongodb started."
   if [ "x${MONGO_URL}" == "x" ]; then
-    export MONGO_URL=mongodb://localhost:27017/app
+    export MONGO_URL=mongodb://localhost:${MONGODB_PORT}/app
   fi
 fi
 
