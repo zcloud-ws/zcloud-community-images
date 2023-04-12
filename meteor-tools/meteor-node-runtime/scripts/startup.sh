@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e -x
 
 BUNDLE_FILE="/bundle/bundle.tar.gz"
 APP_DIR="$HOME/app"

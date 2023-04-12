@@ -10,10 +10,11 @@ fi
 
 echo "Meteor versions: ${METEOR_VERSION}"
 
-source config.sh
+BASE_DIR=$PWD
+DIRS="meteor-build meteor-node-runtime meteor-node-mongodb-runtime"
 
-export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${METEOR_VERSION}"
-
-docker build -t "${IMAGE}" \
-    --build-arg BASE_IMAGE="zcloudws/meteor-build:${METEOR_VERSION}" \
-    .
+for DIR in $DIRS; do
+  cd "${DIR}" || exit
+  ./build.sh "${METEOR_VERSION}"
+  cd "${BASE_DIR}" || exit
+done
