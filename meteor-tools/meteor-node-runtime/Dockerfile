@@ -15,9 +15,17 @@ RUN export DEV_BUNDLE_DIR="$(meteor node -e 'console.log(process.env.NPM_CONFIG_
 
 FROM docker.io/zcloudws/ubuntu-base:22.04
 
-COPY --from=builder /tmp/tools/.node /home/zcloud/.node
+USER root
 
-RUN mkdir $HOME/bin && \
-    ln -s $HOME/.node/bin/{node,npm,npx} $HOME/bin/
+COPY --from=builder /tmp/tools/.node /opt/zcloud/nodejs/
 
+RUN mkdir /built_app && chown zcloud:zcloud -R /built_app
+
+RUN ln -s /opt/zcloud/nodejs/bin/{node,npm,npx} /usr/local/bin/
+
+COPY scripts /scripts
+
+USER zcloud
+
+ENTRYPOINT ["/scripts/startup.sh"]
 

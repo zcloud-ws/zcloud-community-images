@@ -1,12 +1,41 @@
-# Meteor build image used for build purpose
+# Nodejs runtime from Meteor
 
-**User**: zcloud
-**Group**: zcloud
+This image uses nodejs, npm and npx extracted from Meteor dev bundle.
 
-**UID**: 65123
-**GID**: 65123
-
+## Running example
 
 ```bash
-docker run --rm --name zcloud-meteor-build -it zcloudws/meteor-build:2.11.0
+# Starting App with internal MongoDB
+docker run --rm --name meteor-app -it \
+  -v /DIR_WITH_BUNDLE_TAR:/bundle \
+  --env ROOT_URL=http://localhost:3000 \
+  --env PORT=3000 \
+  -p 3000:3000 \
+  zcloudws/meteor-node-runtime:2.11.0
 ```
+
+# Meteor UP
+
+This image is compatible with [Meteor UP](https://meteor-up.com/).
+
+```javascript
+// Usage example
+{
+// ...
+    docker: {
+        image: 'zcloudws/meteor-node-runtime:METEOR_VERSION'
+    // ...
+    }
+// ...
+};
+```
+
+### User information:
+
+- **User**: zcloud
+- **Group**: zcloud
+- **UID**: 65123
+- **GID**: 65123
+
+
+_by [Quave](https://www.quave.com.br)_

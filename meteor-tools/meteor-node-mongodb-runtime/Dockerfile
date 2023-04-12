@@ -14,14 +14,20 @@ RUN export DEV_BUNDLE_DIR="$(meteor node -e 'console.log(process.env.NPM_CONFIG_
     cp -r $DEV_BUNDLE_DIR/{bin,lib} /tmp/tools/.node && \
     cp -r $DEV_BUNDLE_DIR/mongodb/bin /tmp/tools/.mongodb/
 
-
 FROM docker.io/zcloudws/ubuntu-base:22.04
 
-COPY --from=builder /tmp/tools/.node /home/zcloud/.node
-COPY --from=builder /tmp/tools/.mongodb /home/zcloud/.mongodb
+USER root
 
-RUN mkdir $HOME/bin && \
-    ln -s $HOME/.node/bin/{node,npm,npx} $HOME/bin/ && \
-    ln -s $HOME/.mongodb/bin/mongod $HOME/bin/
+COPY --from=builder /tmp/tools/.node /opt/zcloud/nodejs/
+COPY --from=builder /tmp/tools/.mongodb /opt/zcloud/mongodb/
 
+RUN mkdir /{built_app,mongodb-data} && chown zcloud:zcloud -R /{built_app,mongodb-data}
 
+RUN ln -s /opt/zcloud/nodejs/bin/{node,npm,npx} /usr/local/bin/ && \
+    ln -s /opt/zcloud/mongodb/bin/mongod /usr/local/bin/
+
+COPY scripts /scripts
+
+USER zcloud
+
+ENTRYPOINT ["/scripts/startup.sh"]
