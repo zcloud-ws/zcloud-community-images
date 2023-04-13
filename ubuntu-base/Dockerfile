@@ -1,4 +1,6 @@
-FROM ubuntu:22.04
+ARG BASE_IMAGE
+
+FROM $BASE_IMAGE
 
 ARG USER=zcloud
 
