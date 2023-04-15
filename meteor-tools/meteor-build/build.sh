@@ -24,6 +24,6 @@ source "${CONFIG_FILE}"
 export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}"
 
 docker build -t "${IMAGE}" . \
-  --build-arg METEOR_VERSION="${METEOR_VERSION}" \
+  --build-arg METEOR_VERSION="${_VERSION}" \
   --build-arg PACKAGES="${PACKAGES}" \
   --build-arg INIT_COMMAND_VARS="${INIT_COMMAND_VARS}"
