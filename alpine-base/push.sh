@@ -5,4 +5,4 @@ source config.sh
 
 export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}"
 
-../scripts/push.sh
+docker push "${IMAGE}"
