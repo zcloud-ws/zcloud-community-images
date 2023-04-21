@@ -14,4 +14,4 @@ source config.sh
 
 export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${METEOR_VERSION}"
 
-../../scripts/push.sh
+docker push "${IMAGE}"
