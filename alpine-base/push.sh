@@ -10,3 +10,4 @@ export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}"
 export README_BODY="{\"full_description\": \"$(cat README.md | sed -z 's/\n/\\n/g')\"}"
 
 ../scripts/push.sh
+../scripts/update-readme.sh
