@@ -15,4 +15,4 @@ git commit -m "Create/Update meteor version. Internal version: ${NEXT_VERSION}"
 git tag "meteor-build-${SUFFIX_TAG}"
 git tag "meteor-node-runtime-${SUFFIX_TAG}"
 git tag "meteor-node-mongodb-runtime-${SUFFIX_TAG}"
-git push --tags
+git push origin --tags
