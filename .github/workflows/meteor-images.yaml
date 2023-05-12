@@ -15,4 +15,4 @@ jobs:
       - name: Create release tag
         run: |
           cd meteor-tools 
-          meteor-create-tags.sh "${{ inputs.meteorVersion }}"
+          ./meteor-create-tags.sh "${{ inputs.meteorVersion }}"
