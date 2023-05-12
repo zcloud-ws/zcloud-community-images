@@ -16,5 +16,5 @@ export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${METEOR_VERSION}"
 
 ../../scripts/push.sh
 
-export README_BODY="{\"full_description\": \"$(cat README.md | sed -z 's/\n/\\n/g')\"}"
+export README_BODY="{\"full_description\": \"$(cat README.md | sed -z 's/\n/\\n/g' | sed -z 's/"/\\"/g')\"}"
 ../../scripts/update-readme.sh
