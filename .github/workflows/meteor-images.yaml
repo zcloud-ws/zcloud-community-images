@@ -1,5 +1,4 @@
-name: Docker Image CI
-
+name: Meteor images
 on:
   workflow_dispatch:
     inputs:
