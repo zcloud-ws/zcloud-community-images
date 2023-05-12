@@ -1,0 +1,19 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      meteorVersion:
+        description: 'Meteor version'
+        required: true
+        default: '2.12'
+        type: string
+jobs:
+  createReleaseTag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create release tag
+        run: |
+          cd meteor-tools 
+          meteor-create-tags.sh "${{ inputs.meteorVersion }}"
