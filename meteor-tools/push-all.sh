@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e -x
+set -e
 
 METEOR_VERSION=${1}
 
@@ -14,7 +14,9 @@ BASE_DIR=$PWD
 DIRS="meteor-build meteor-node-runtime meteor-node-mongodb-runtime"
 
 for DIR in $DIRS; do
-  cd "${DIR}" || exit
+  echo "Pushing ${DIR}..."
+  cd "${DIR}"
   ./push.sh "${METEOR_VERSION}"
-  cd "${BASE_DIR}" || exit
+  cd "${BASE_DIR}"
+  echo "Pushed ${DIR}"
 done

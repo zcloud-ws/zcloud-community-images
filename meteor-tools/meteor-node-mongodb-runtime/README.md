@@ -24,6 +24,10 @@ docker run --rm --name meteor-app -it \
 - To change default data directory use environment variable `MONGODB_DATA_DIR=/mongodb-data`
 - To pass extra arguments for `mongod` use environment variable `MONGODB_EXTRA_ARGS`
 
+# Npm install at startup
+
+- To disable npm running on startup use environment variable `RUN_NPM_INSTALL=false`
+
 ### User information:
 
 - **User**: zcloud

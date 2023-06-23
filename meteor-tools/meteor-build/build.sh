@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e -x
+set -e
 
 _VERSION=${1}
 
@@ -19,7 +19,7 @@ fi
 
 echo "Meteor versions: ${_VERSION}"
 
-source "${CONFIG_FILE}"
+. "${CONFIG_FILE}"
 
 export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}"
 

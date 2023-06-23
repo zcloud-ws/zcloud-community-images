@@ -14,6 +14,10 @@ docker run --rm --name meteor-app -it \
   zcloudws/meteor-node-runtime:2.11.0
 ```
 
+# Npm install at startup
+
+- To disable npm running on startup use environment variable `RUN_NPM_INSTALL=false`
+
 # Meteor UP
 
 This image is compatible with [Meteor UP](https://meteor-up.com/).
