@@ -31,6 +31,6 @@ export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${METEOR_VERSION}"
 export README_BODY="{\"full_description\": \"$(cat README.md | sed -z 's/\n/\\n/g' | sed -z 's/"/\\"/g')\"}"
 ../../scripts/update-readme.sh
 
-export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${METEOR_VERSION}-with-py"
+export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${METEOR_VERSION}-with-tools"
 
 ../../scripts/push.sh
