@@ -13,7 +13,7 @@
 
 ### For project members
 
-To create or update an image uses GitHub actions
+To create or update an image Meteor [go to](./meteor-tools/README.md) 
 
 ### For non project members
 
