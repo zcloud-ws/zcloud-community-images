@@ -9,7 +9,7 @@ on:
         default: '2.12'
         type: string
 jobs:
-  createReleaseTag:
+  BuildMeteorImages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
