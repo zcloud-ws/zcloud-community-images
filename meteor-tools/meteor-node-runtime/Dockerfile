@@ -10,7 +10,7 @@ RUN mkdir -p /tmp/tools/.node && chown zcloud:zcloud -R /tmp/tools
 
 USER zcloud
 
-RUN export DEV_BUNDLE_DIR="$(meteor node -e 'console.log(process.env.NPM_CONFIG_PREFIX)')" && \
+RUN export DEV_BUNDLE_DIR=.meteor/packages/meteor-tool/*.*.*/mt-os.linux.x86_64/dev_bundle && \
     cp -r $DEV_BUNDLE_DIR/{bin,lib} /tmp/tools/.node/
 
 FROM docker.io/zcloudws/ubuntu-base:22.04
