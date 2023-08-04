@@ -30,8 +30,8 @@ docker build -t "${IMAGE}" \
     --build-arg BASE_IMAGE="zcloudws/meteor-build:${METEOR_VERSION}" \
     .
 
-docker build -t "${IMAGE}-with-py" \
-    -f with-py.dockerfile \
+docker build -t "${IMAGE}-with-tools" \
+    -f with-tools.dockerfile \
     --build-arg PACKAGES="${PACKAGES}" \
     --build-arg BASE_IMAGE="${IMAGE}" \
     .
