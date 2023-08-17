@@ -21,7 +21,7 @@ COPY --from=builder /tmp/tools/.node /opt/zcloud/nodejs/
 
 RUN mkdir /built_app && chown zcloud:zcloud -R /built_app
 
-RUN ln -s /opt/zcloud/nodejs/bin/{node,npm,npx} /usr/local/bin/
+RUN echo "export PATH=/opt/zcloud/nodejs/bin:\$PATH" >> /etc/bash.bashrc
 
 COPY scripts /scripts
 
