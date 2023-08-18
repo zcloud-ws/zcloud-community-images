@@ -23,7 +23,8 @@ COPY --from=builder /tmp/tools/.mongodb /opt/zcloud/mongodb/
 
 RUN mkdir /{built_app,mongodb-data} && chown zcloud:zcloud -R /{built_app,mongodb-data}
 
-RUN echo "export PATH=/opt/zcloud/nodejs/bin:/opt/zcloud/mongodb/bin:\$PATH" >> /etc/bash.bashrc
+RUN ln -s /opt/zcloud/nodejs/bin/{node,npm,npx} /usr/local/bin/ && \
+    ln -s /opt/zcloud/mongodb/bin/mongod /usr/local/bin/
 
 COPY scripts /scripts
 
