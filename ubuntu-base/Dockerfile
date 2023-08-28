@@ -4,7 +4,7 @@ FROM $BASE_IMAGE
 
 ARG USER=zcloud
 
-RUN apt-get update && apt-get install -y curl \
+RUN apt-get update && apt-get install -y curl nano unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # Create user group
