@@ -3,7 +3,7 @@ set -e -x
 
 BUNDLE_FILE=${BUNDLE_FILE:-"/bundle/bundle.tar.gz"}
 APP_DIR=${APP_DIR:-"$HOME/app"}
-RUN_NPM_INSTALL=${RUN_NPM_INSTALL:-"true"}
+RUN_NPM_INSTALL=${RUN_NPM_INSTALL:-"false"}
 
 if [ -f "${BUNDLE_FILE}" ]; then
   mkdir "$APP_DIR"
