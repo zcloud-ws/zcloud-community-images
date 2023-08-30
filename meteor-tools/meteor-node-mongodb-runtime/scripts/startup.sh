@@ -23,7 +23,7 @@ if [ "x${USE_INTERNAL_MONGODB}" != "x" ]; then
   ${MONGODB_EXEC}
   echo "Mongodb started."
   if [ "x${MONGO_URL}" == "x" ]; then
-    export MONGO_URL=mongodb://localhost:${MONGODB_PORT}/app
+    export MONGO_URL=mongodb://127.0.0.1:${MONGODB_PORT}/app
   fi
 fi
 
