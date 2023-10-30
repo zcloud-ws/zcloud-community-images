@@ -2,6 +2,8 @@ ARG BASE_IMAGE
 
 FROM $BASE_IMAGE as builder
 
+ARG METEOR_TOOL_VERSION="*.*.*"
+
 MAINTAINER zcloud.ws
 
 USER root
@@ -9,8 +11,8 @@ USER root
 RUN mkdir -p /tmp/tools/{.node,.mongodb} && chown zcloud:zcloud -R /tmp/tools
 
 USER zcloud
-
-RUN export DEV_BUNDLE_DIR=.meteor/packages/meteor-tool/*.*.*/mt-os.linux.x86_64/dev_bundle && \
+RUN echo $METEOR_TOOL_VERSION
+RUN export DEV_BUNDLE_DIR=.meteor/packages/meteor-tool/$METEOR_TOOL_VERSION/mt-os.linux.x86_64/dev_bundle && \
     cp -r $DEV_BUNDLE_DIR/{bin,lib} /tmp/tools/.node && \
     cp -r $DEV_BUNDLE_DIR/mongodb/bin /tmp/tools/.mongodb/
 
