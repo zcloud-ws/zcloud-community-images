@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "### DOCKER_TAG ===> $DOCKER_TAG"
+
+./build.sh "${DOCKER_TAG}"
