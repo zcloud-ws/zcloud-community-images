@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "### DOCKER_TAG ===> $DOCKER_TAG"
+
+./push.sh "${DOCKER_TAG}"
+
+
+
+
