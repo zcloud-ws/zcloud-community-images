@@ -1,0 +1,31 @@
+name: Publish images
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: 'Image'
+        required: true
+        default: '1.0.0'
+        type: choice
+        options:
+          - devops-tools
+      imageVersion:
+        description: 'Image version'
+        required: true
+        default: '1.0.0'
+        type: string
+jobs:
+  PublishImages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build image
+        run: cd "${{ inputs.image }}" && ./build.sh "${{ inputs.imageVersion }}"
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push image
+        run: cd "${{ inputs.image }}" && ./push.sh "${{ inputs.imageVersion }}"
