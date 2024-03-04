@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine3.18 as builder
+FROM phpswoole/swoole:php8.3-alpine as builder
 
 RUN apk add make \
     autoconf \
@@ -34,7 +34,7 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-install opcache
 RUN docker-php-ext-install pcntl
 
-FROM php:8.3-fpm-alpine3.18
+FROM phpswoole/swoole:php8.3-alpine
 
 COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
 
@@ -49,30 +49,12 @@ RUN apk --no-cache add unzip \
     libjpeg-turbo \
     freetype \
     icu \
-    icu-data-full
-
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-    && php composer-setup.php \
-    && php -r "unlink('composer-setup.php');" \
-    && mv composer.phar /usr/local/bin/composer
-
-RUN apk upgrade --update \
-        && apk add --no-cache --virtual .build-deps \
-        linux-headers \
-        autoconf \
-        gcc \
-        g++ \
-        libc-dev \
-        make \
-        && pecl install redis \
-        && docker-php-ext-enable redis \
-        && pecl install swoole \
-        && docker-php-ext-enable swoole \
-        && apk del .build-deps \
-        && rm -rf /var/cache/apk/*
+    icu-data-full \
+    ffmpeg
 
 RUN docker-php-ext-enable \
+    swoole \
+    redis \
     pdo_mysql \
     pdo_pgsql \
     gd \

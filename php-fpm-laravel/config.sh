@@ -1,3 +1,3 @@
 export IMAGE_REPO="zcloudws"
 export IMAGE_NAME="php-fpm-laravel"
-export IMAGE_TAG="8.3-fpm-alpine3.18"
+export IMAGE_TAG="swoole-php8.3-alpine"
