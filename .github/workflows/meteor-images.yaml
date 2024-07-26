@@ -6,7 +6,7 @@ on:
       meteorVersion:
         description: 'Meteor version'
         required: true
-        default: '2.12'
+        default: '3.0.1'
         type: string
 jobs:
   BuildMeteorImages:
