@@ -4,7 +4,7 @@ FROM $BASE_IMAGE as builder
 
 ARG METEOR_TOOL_VERSION="*.*.*"
 
-MAINTAINER zcloud.ws
+LABEL maintainer="zcloud.ws"
 
 USER root
 

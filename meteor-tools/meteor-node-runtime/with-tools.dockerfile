@@ -4,7 +4,7 @@ FROM $BASE_IMAGE
 
 ARG PACKAGES
 
-MAINTAINER zcloud.ws
+LABEL maintainer="zcloud.ws"
 
 USER root
 

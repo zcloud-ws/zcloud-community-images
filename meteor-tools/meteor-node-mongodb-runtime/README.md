@@ -28,6 +28,14 @@ docker run --rm --name meteor-app -it \
 
 - To disable npm running on startup use environment variable `RUN_NPM_INSTALL=false`
 
+
+### Tags suffix
+
+Extra packages installed
+
+- `${VERSION}-with-tools`: build-essential git python
+- `${VERSION}-with-tools-ffmpeg`: build-essential git python ffmpeg
+
 ### User information:
 
 - **User**: zcloud

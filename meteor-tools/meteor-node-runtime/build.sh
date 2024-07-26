@@ -37,3 +37,9 @@ docker build -t "${IMAGE}-with-tools" \
     --build-arg METEOR_TOOL_VERSION="${METEOR_TOOL_VERSION:-"*.*.*"}" \
     --build-arg BASE_IMAGE="${IMAGE}" \
     .
+
+docker build -t "${IMAGE}-with-tools-ffmpeg" \
+    -f with-tools.dockerfile \
+    --build-arg PACKAGES="ffmpeg" \
+    --build-arg BASE_IMAGE="${IMAGE}-with-tools" \
+    .

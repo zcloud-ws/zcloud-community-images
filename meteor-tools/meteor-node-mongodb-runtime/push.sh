@@ -34,3 +34,7 @@ export README_BODY="{\"full_description\": \"$(cat README.md | sed -z 's/\n/\\n/
 export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${METEOR_VERSION}-with-tools"
 
 ../../scripts/push.sh
+
+export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${METEOR_VERSION}-with-tools-ffmpeg"
+
+../../scripts/push.sh

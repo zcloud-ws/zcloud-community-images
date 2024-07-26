@@ -34,6 +34,13 @@ This image is compatible with [Meteor UP](https://meteor-up.com/).
 };
 ```
 
+### Tags suffix
+
+Extra packages installed
+
+- `${VERSION}-with-tools`: build-essential git python
+- `${VERSION}-with-tools-ffmpeg`: build-essential git python ffmpeg
+
 ### User information:
 
 - **User**: zcloud

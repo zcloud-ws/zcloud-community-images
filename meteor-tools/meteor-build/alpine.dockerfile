@@ -6,7 +6,7 @@ ARG ALPINE_PACKAGES
 
 ARG INIT_COMMAND_VARS
 
-MAINTAINER zcloud.ws
+LABEL maintainer="zcloud.ws"
 
 USER root
 
