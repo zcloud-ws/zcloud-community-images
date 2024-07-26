@@ -10,6 +10,7 @@ on:
         type: string
 jobs:
   BuildMeteorImages:
+    name: Meteor images ${{ inputs.meteorVersion }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
