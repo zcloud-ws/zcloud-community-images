@@ -13,6 +13,10 @@ USER root
 RUN apt update && apt install -y git $PACKAGES && \
         rm -rf /var/lib/apt/lists/*
 
+COPY files/zcloud-profile.sh /etc/profile.d/zcloud-profile.sh
+
+RUN chmod +x /etc/profile.d/zcloud-profile.sh
+
 USER zcloud
 
 RUN curl https://install.meteor.com/?release=$METEOR_VERSION | sh
