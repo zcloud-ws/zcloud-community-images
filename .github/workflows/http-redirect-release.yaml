@@ -1,0 +1,31 @@
+name: HTTP Redirect Release
+on:
+  workflow_dispatch:
+    inputs: {}
+
+  push:
+    tags:
+      - 'http-redirect-v*'
+env:
+  IMG: zcloudws/http-redirect:${{ github.ref_name }}
+jobs:
+  operator-build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build operator image
+        env:
+          IMG: ${{ env.IMG }}
+        run: |
+          cd http-redirect
+          echo "HTTP Redirect image $IMG"
+          docker build -t "$IMG" .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push image
+        run: docker push "${{ env.IMG }}"
+

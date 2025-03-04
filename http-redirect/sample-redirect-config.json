@@ -1,0 +1,19 @@
+[
+  {
+    "hostFrom": "a.localhost",
+    "hostTo": "b.localhost",
+    "httpCode": 301,
+    "scheme": "https:"
+  },
+  {
+    "hostFrom": "c.localhost",
+    "hostTo": "d.localhost",
+    "httpCode": 302
+  },
+  {
+    "hostFrom": "e.localhost",
+    "hostTo": "f.localhost",
+    "httpCode": 307,
+    "scheme": "http:"
+  }
+]

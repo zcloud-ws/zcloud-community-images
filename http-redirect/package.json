@@ -1,0 +1,12 @@
+{
+  "name": "http-redirect",
+  "module": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "bun index.js",
+    "dev": "REDIRECT_CONFIG=$(cat sample-redirect-config.json) bun index.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
