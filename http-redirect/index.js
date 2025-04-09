@@ -42,6 +42,12 @@ const server = Bun.serve({
       redirectUrl.hostname = redirect.hostTo;
       redirectUrl.protocol = redirect.scheme || 'https:';
 
+      if (redirect.pathPrefixTo) {
+        const currentPath = redirectUrl.pathname.startsWith('/') ? redirectUrl.pathname : `/${redirectUrl.pathname}`;
+        const prefixPath = redirect.pathPrefixTo.endsWith('/') ? redirect.pathPrefixTo.slice(0, -1) : redirect.pathPrefixTo;
+        redirectUrl.pathname = `${prefixPath}${currentPath}`;
+      }
+
       console.log(`Redirecting ${url.toString()} to ${redirectUrl.toString()} [${redirect.httpCode}]`);
 
       return new Response(null, {

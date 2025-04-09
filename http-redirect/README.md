@@ -18,7 +18,14 @@ The server reads redirect rules from the `REDIRECT_CONFIG` environment variable.
     "hostFrom": "temp-domain.com",
     "hostTo": "example.com",
     "httpCode": 302
-  }
+  },
+  {
+    "hostFrom": "old-domain.com",
+    "hostTo": "new-domain.com",
+    "pathPrefixTo": "/blog",
+    "httpCode": 301,
+    "scheme": "https:"
+  },
 ]
 ```
 
@@ -33,6 +40,7 @@ Each redirect object requires:
 Optional fields:
 - `scheme`: The protocol to use in the redirect URL ("http:" or "https:")
   - If not specified, the original request's protocol will be preserved
+- `pathPrefixTo`: Path to use as prefix path
 
 ## Using with Quave Cloud
 
