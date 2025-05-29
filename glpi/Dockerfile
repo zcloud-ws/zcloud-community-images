@@ -1,12 +1,13 @@
 
 ARG BUILDER_IMAGE=php:cli-alpine
 ARG APP_IMAGE=php:apache
-ARG GLPI_SOURCE_REVISION=main
 
 #####
 # Builder image
 #####
 FROM $BUILDER_IMAGE AS builder
+
+ARG GLPI_SOURCE_REVISION=main
 
 # Copy composer binary from latest composer image.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -120,10 +121,10 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Copy services configuration files and startup script to container.
-COPY ./glpi-build/files/etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY ./glpi-build/files/etc/cron.d/glpi /etc/cron.d/glpi
-COPY ./glpi-build/files/etc/php/conf.d/glpi.ini $PHP_INI_DIR/conf.d/glpi.ini
-COPY ./glpi-build/files/opt/startup.sh /opt/startup.sh
+COPY ./files/etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./files/etc/cron.d/glpi /etc/cron.d/glpi
+COPY ./files/etc/php/conf.d/glpi.ini $PHP_INI_DIR/conf.d/glpi.ini
+COPY ./files/opt/startup.sh /opt/startup.sh
 
 # Install GLPI crontab.
 RUN crontab -u www-data /etc/cron.d/glpi
