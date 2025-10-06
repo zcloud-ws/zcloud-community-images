@@ -40,6 +40,6 @@ docker build -t "${IMAGE}-with-tools" \
 
 docker build -t "${IMAGE}-with-tools-ffmpeg" \
     -f with-tools.dockerfile \
-    --build-arg PACKAGES="ffmpeg" \
+    --build-arg PACKAGES="ffmpeg mp3gain" \
     --build-arg BASE_IMAGE="${IMAGE}-with-tools" \
     .
