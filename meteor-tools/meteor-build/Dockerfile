@@ -23,6 +23,8 @@ RUN curl https://install.meteor.com/?release=$METEOR_VERSION | sh
 
 RUN mkdir bin && ln -s $HOME/.meteor/meteor $HOME/bin/meteor
 
+RUN ln -s $HOME/.meteor/packages/meteor-tool/*.*.*/mt-os.linux.x86_64/dev_bundle/bin/* $HOME/bin/
+
 RUN $INIT_COMMAND_VARS && $HOME/bin/meteor create pre-cache && \
     rm -rf pre-cache
 
