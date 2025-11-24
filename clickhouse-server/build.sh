@@ -12,5 +12,5 @@ fi
 export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}"
 
 docker build -t "${IMAGE}" \
-    --build-arg BASE_IMAGE="clickhouse-server:${IMAGE_TAG}" \
+    --build-arg BASE_IMAGE="clickhouse/clickhouse-server:${IMAGE_TAG}" \
     .
