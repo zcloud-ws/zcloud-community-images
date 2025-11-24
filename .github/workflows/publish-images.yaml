@@ -10,6 +10,8 @@ on:
         type: choice
         options:
           - devops-tools
+          - clickhouse-server
+          - ubuntu-base
       imageVersion:
         description: 'Image version'
         required: true
