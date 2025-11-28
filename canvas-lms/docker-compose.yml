@@ -1,0 +1,85 @@
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: canvas_password
+      POSTGRES_DB: canvas_production
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - canvas-network
+
+  redis:
+    image: redis:6-alpine
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - canvas-network
+
+  canvas:
+    build:
+      context: .
+      no_cache: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - canvas-data:/opt/canvas/data
+    environment:
+      DB_HOST: postgres
+      DB_PASSWORD: canvas_password
+      DB_USER: postgres
+      DB_NAME: canvas_production
+      REDIS_URL: redis://redis:6379/0
+      REDIS_CACHE_URL: redis://redis:6379/1
+      CANVAS_DOMAIN: localhost:3000
+      CANVAS_ENCRYPTION_KEY: ${CANVAS_ENCRYPTION_KEY:-}
+      RUN_MIGRATIONS: "true"
+      COMPILE_ASSETS: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - canvas-network
+
+  canvas-jobs:
+    build:
+      context: .
+      no_cache: true
+    command: jobs:start
+    volumes:
+      - canvas-data:/opt/canvas/data
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: canvas_password
+      DB_NAME: canvas_production
+      REDIS_URL: redis://redis:6379/0
+      CANVAS_ENCRYPTION_KEY: ${CANVAS_ENCRYPTION_KEY:-}
+    depends_on:
+      - postgres
+      - redis
+      - canvas
+    networks:
+      - canvas-network
+
+volumes:
+  postgres-data:
+  redis-data:
+  canvas-data:
+
+networks:
+  canvas-network:
+    driver: bridge
