@@ -101,6 +101,17 @@ default:
 EOF
 }
 
+generate_amazon_s3_config() {
+    log "Generating Amazon S3 configuration..."
+    cat > /opt/canvas/config/amazon_s3.yml <<EOF
+production:
+  bucket_name: ${S3_BUCKET_NAME}
+  access_key_id: ${S3_ACCESS_KEY_ID}
+  secret_access_key: ${S3_SECRET_ACCESS_KEY}
+  region: ${S3_REGION:-us-east-1}
+EOF
+}
+
 log "Ensuring config directory exists..."
 mkdir -p /opt/canvas/config
 
@@ -111,8 +122,8 @@ mkdir -p /opt/canvas/config
 [ -f /opt/canvas/config/outgoing_mail.yml ] || generate_mail_config
 [ -f /opt/canvas/config/domain.yml ] || generate_domain_config
 [ -f /opt/canvas/config/delayed_jobs.yml ] || generate_delayed_jobs_config
+[ -f /opt/canvas/config/amazon_s3.yml ] || generate_amazon_s3_config
 
-# Ensure ownership
 chown -R canvaslms:canvaslms /opt/canvas/config
 
 log "Configuring persistence directories..."
@@ -136,19 +147,15 @@ case "$1" in
     app:start)
         log "Starting Canvas LMS..."
         runuser -u canvaslms -- bash -lc "cd /opt/canvas && npx gulp rev"
-        # Optionally run the interactive initial setup (creates DB schema + seed + admin)
-        # Enable by setting RUN_INITIAL_SETUP=true and provide:
-        #   CANVAS_LMS_ADMIN_EMAIL, CANVAS_LMS_ADMIN_PASSWORD, CANVAS_LMS_ACCOUNT_NAME, CANVAS_LMS_STATS_COLLECTION
         if [ "${RUN_INITIAL_SETUP}" = "true" ]; then
             log "Running Canvas initial setup..."
             runuser -u canvaslms -- bash -lc "cd /opt/canvas && RAILS_ENV=production bundle exec rake db:initial_setup"
+            runuser -u canvaslms -- bash -lc "cd /opt/canvas && bundle exec rake db:migrate"
         fi
-        runuser -u canvaslms -- bash -lc "cd /opt/canvas && bundle exec rake db:migrate"
         runuser -u canvaslms -- bash -lc "cd /opt/canvas && RAILS_GROUPS=assets RAILS_ENV=production bundle exec rake canvas:compile_assets"
         exec nginx -g 'daemon off;' &
         runuser -u canvaslms -- bash -lc "cd /opt/canvas && bundle exec rails server -b 0.0.0.0 -e production -p 3000"
         ;;
-
     jobs:start)
         log "Starting Canvas Jobs..."
         exec runuser -u canvaslms -- bash -lc "cd /opt/canvas && bundle exec script/delayed_job run"
