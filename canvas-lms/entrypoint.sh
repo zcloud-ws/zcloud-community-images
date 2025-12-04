@@ -136,6 +136,13 @@ case "$1" in
     app:start)
         log "Starting Canvas LMS..."
         runuser -u canvaslms -- bash -lc "cd /opt/canvas && npx gulp rev"
+        # Optionally run the interactive initial setup (creates DB schema + seed + admin)
+        # Enable by setting RUN_INITIAL_SETUP=true and provide:
+        #   CANVAS_LMS_ADMIN_EMAIL, CANVAS_LMS_ADMIN_PASSWORD, CANVAS_LMS_ACCOUNT_NAME, CANVAS_LMS_STATS_COLLECTION
+        if [ "${RUN_INITIAL_SETUP}" = "true" ]; then
+            log "Running Canvas initial setup..."
+            runuser -u canvaslms -- bash -lc "cd /opt/canvas && RAILS_ENV=production bundle exec rake db:initial_setup"
+        fi
         runuser -u canvaslms -- bash -lc "cd /opt/canvas && bundle exec rake db:migrate"
         runuser -u canvaslms -- bash -lc "cd /opt/canvas && RAILS_GROUPS=assets RAILS_ENV=production bundle exec rake canvas:compile_assets"
         exec nginx -g 'daemon off;' &

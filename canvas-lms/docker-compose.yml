@@ -39,8 +39,13 @@ services:
       DB_QUEUE_NAME: canvas_queue_production
       REDIS_URL: redis://redis:6379/0
       REDIS_CACHE_URL: redis://redis:6379/1
+      RUN_INITIAL_SETUP: "true"
+      CANVAS_LMS_ADMIN_EMAIL: admin@example.com
+      CANVAS_LMS_ADMIN_PASSWORD: SuperSecret123!
+      CANVAS_LMS_ACCOUNT_NAME: test
+      CANVAS_LMS_STATS_COLLECTION: opt_in
       CANVAS_DOMAIN: http://localhost
-      CANVAS_ENCRYPTION_KEY: facdd3a131ddd8988b14f6e4e01039c93cfa0160
+      CANVAS_ENCRYPTION_KEY: facdd3a131ddd8988b14f6e4e01039c93cfa0160 #https://github.com/instructure/canvas-lms/blob/c36a4065ff33e99b50b183d36dc7fa14c15e87ec/config/security.yml.example#L12
       CANVAS_PREVIOUS_ENCRYPTION_KEYS: "0610afc39c93010e4e6f41b8898ddd131a3ddcaf"
       CANVAS_JWT_ENCRYPTION_KEYS: 68ddd5576efad4bc90eed3ab0543a1112b0f51ec9425573a80a96cbc4a9e12b6
       SMTP_ADDRESS: localhost
@@ -52,6 +57,7 @@ services:
       SMTP_DOMAIN: example.com
       SMTP_FROM: canvas@example.com
       SMTP_FROM_NAME: Canvas LMS
+      RAILS_LOG_LEVEL: warn
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:3000/login"]
       interval: 10s
@@ -78,10 +84,26 @@ services:
       DB_NAME: canvas_production
       DB_QUEUE_NAME: canvas_queue_production
       REDIS_URL: redis://redis:6379/0
-      CANVAS_ENCRYPTION_KEY: supersecreto123mudeissoemproducao
-      CANVAS_PREVIOUS_ENCRYPTION_KEYS: "" # optional
-      CANVAS_JWT_ENCRYPTION_KEYS: supersecreto123mudeissoemproducao
-      DISABLE_JOB_LIVE_EVENTS_CONTEXT: "true"
+      REDIS_CACHE_URL: redis://redis:6379/1
+      RUN_INITIAL_SETUP: "true"
+      CANVAS_LMS_ADMIN_EMAIL: admin@example.com
+      CANVAS_LMS_ADMIN_PASSWORD: SuperSecret123!
+      CANVAS_LMS_ACCOUNT_NAME: test
+      CANVAS_LMS_STATS_COLLECTION: opt_in
+      CANVAS_DOMAIN: http://localhost
+      CANVAS_ENCRYPTION_KEY: facdd3a131ddd8988b14f6e4e01039c93cfa0160 #https://github.com/instructure/canvas-lms/blob/c36a4065ff33e99b50b183d36dc7fa14c15e87ec/config/security.yml.example#L12
+      CANVAS_PREVIOUS_ENCRYPTION_KEYS: "0610afc39c93010e4e6f41b8898ddd131a3ddcaf"
+      CANVAS_JWT_ENCRYPTION_KEYS: 68ddd5576efad4bc90eed3ab0543a1112b0f51ec9425573a80a96cbc4a9e12b6
+      SMTP_ADDRESS: localhost
+      SMTP_PORT: 25
+      SMTP_USERNAME: ""
+      SMTP_PASSWORD: ""
+      SMTP_AUTH: plain
+      SMTP_STARTTLS: "true"
+      SMTP_DOMAIN: example.com
+      SMTP_FROM: canvas@example.com
+      SMTP_FROM_NAME: Canvas LMS
+      RAILS_LOG_LEVEL: warn
     depends_on:
       - postgres
       - redis
