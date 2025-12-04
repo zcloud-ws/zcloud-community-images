@@ -1,51 +1,62 @@
 services:
   postgres:
-    image: postgres:14
+    image: postgres:14-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: canvas_password
       POSTGRES_DB: canvas_production
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
     networks:
       - canvas-network
 
   redis:
     image: redis:6-alpine
-    volumes:
-      - redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
     networks:
       - canvas-network
 
   canvas:
-    build:
-      context: .
-      no_cache: true
+    build: .
+    command: app:start
     ports:
-      - "3000:3000"
-    volumes:
-      - canvas-data:/opt/canvas/data
+      - "80:80"
     environment:
+      RAILS_ENV: production
+      NODE_ENV: production
       DB_HOST: postgres
-      DB_PASSWORD: canvas_password
+      DB_PORT: 5432
       DB_USER: postgres
+      DB_PASSWORD: canvas_password
       DB_NAME: canvas_production
+      DB_QUEUE_NAME: canvas_queue_production
       REDIS_URL: redis://redis:6379/0
       REDIS_CACHE_URL: redis://redis:6379/1
-      CANVAS_DOMAIN: localhost:3000
-      CANVAS_ENCRYPTION_KEY: ${CANVAS_ENCRYPTION_KEY:-}
-      RUN_MIGRATIONS: "true"
-      COMPILE_ASSETS: "true"
+      CANVAS_DOMAIN: http://localhost
+      CANVAS_ENCRYPTION_KEY: facdd3a131ddd8988b14f6e4e01039c93cfa0160
+      CANVAS_PREVIOUS_ENCRYPTION_KEYS: "0610afc39c93010e4e6f41b8898ddd131a3ddcaf"
+      CANVAS_JWT_ENCRYPTION_KEYS: 68ddd5576efad4bc90eed3ab0543a1112b0f51ec9425573a80a96cbc4a9e12b6
+      SMTP_ADDRESS: localhost
+      SMTP_PORT: 25
+      SMTP_USERNAME: ""
+      SMTP_PASSWORD: ""
+      SMTP_AUTH: plain
+      SMTP_STARTTLS: "true"
+      SMTP_DOMAIN: example.com
+      SMTP_FROM: canvas@example.com
+      SMTP_FROM_NAME: Canvas LMS
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/login"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
     depends_on:
       postgres:
         condition: service_healthy
@@ -55,30 +66,28 @@ services:
       - canvas-network
 
   canvas-jobs:
-    build:
-      context: .
-      no_cache: true
+    build: .
     command: jobs:start
-    volumes:
-      - canvas-data:/opt/canvas/data
     environment:
+      RAILS_ENV: production
+      NODE_ENV: production
       DB_HOST: postgres
+      DB_PORT: 5432
       DB_USER: postgres
       DB_PASSWORD: canvas_password
       DB_NAME: canvas_production
+      DB_QUEUE_NAME: canvas_queue_production
       REDIS_URL: redis://redis:6379/0
-      CANVAS_ENCRYPTION_KEY: ${CANVAS_ENCRYPTION_KEY:-}
+      CANVAS_ENCRYPTION_KEY: supersecreto123mudeissoemproducao
+      CANVAS_PREVIOUS_ENCRYPTION_KEYS: "" # optional
+      CANVAS_JWT_ENCRYPTION_KEYS: supersecreto123mudeissoemproducao
+      DISABLE_JOB_LIVE_EVENTS_CONTEXT: "true"
     depends_on:
       - postgres
       - redis
       - canvas
     networks:
       - canvas-network
-
-volumes:
-  postgres-data:
-  redis-data:
-  canvas-data:
 
 networks:
   canvas-network:
