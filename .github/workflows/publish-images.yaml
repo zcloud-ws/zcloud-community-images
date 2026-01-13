@@ -9,11 +9,11 @@ on:
         default: '1.0.0'
         type: choice
         options:
-          - devops-tools
           - clickhouse-server
-          - ubuntu-base
-          - otel-collector
+          - devops-tools
           - jaeger
+          - otel-collector
+          - ubuntu-base
       imageVersion:
         description: 'Image version'
         required: true
