@@ -143,26 +143,22 @@ ln -sfn /opt/canvas/data/tmp /opt/canvas/tmp/files
 
 chown -R canvaslms:canvaslms /opt/canvas/data
 
-case "$1" in
-    app:start)
+case "${RUN_MODE}" in
+    app|app:start)
         log "Starting Canvas LMS..."
         runuser -u canvaslms -- bash -lc "cd /opt/canvas && npx gulp rev"
         if [ "${RUN_INITIAL_SETUP}" = "true" ]; then
             log "Running Canvas initial setup..."
-            runuser -u canvaslms -- bash -lc "cd /opt/canvas && RAILS_ENV=production bundle exec rake db:initial_setup"
+            runuser -u canvaslms -- bash -lc "cd /opt/canvas && RAILS_ENV=production bundle exec rake db:initial_setup -j 1"
             runuser -u canvaslms -- bash -lc "cd /opt/canvas && bundle exec rake db:migrate"
         fi
-        runuser -u canvaslms -- bash -lc "cd /opt/canvas && RAILS_GROUPS=assets RAILS_ENV=production bundle exec rake canvas:compile_assets"
+        runuser -u canvaslms -- bash -lc "cd /opt/canvas && RAILS_GROUPS=assets RAILS_ENV=production bundle exec rake canvas:compile_assets -j 1"
         exec nginx -g 'daemon off;' &
         runuser -u canvaslms -- bash -lc "cd /opt/canvas && bundle exec rails server -b 0.0.0.0 -e production -p 3000"
         ;;
-    jobs:start)
+    jobs|jobs:start)
         log "Starting Canvas Jobs..."
         exec runuser -u canvaslms -- bash -lc "cd /opt/canvas && bundle exec script/delayed_job run"
         ;;
-
     *)
-        log "Executing custom command: $@"
-        exec runuser -u canvaslms -- "$@"
-        ;;
 esac

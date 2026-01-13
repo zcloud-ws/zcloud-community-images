@@ -40,6 +40,8 @@ services:
         condition: service_healthy
     networks:
       - canvas-network
+    environment:
+      RUN_MODE: app
     env_file:
       - .env
 
@@ -52,6 +54,8 @@ services:
       - postgres
       - redis
       - canvas
+    environment:
+      RUN_MODE: jobs
     networks:
       - canvas-network
 
