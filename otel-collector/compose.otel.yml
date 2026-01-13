@@ -1,0 +1,16 @@
+services:
+  poli-otel-collector:
+    container_name: poli-otel-collector
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 4318:4318
+    environment:
+      - OTEL_CONFIG_CONTENT=${OTEL_CONFIG_CONTENT}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4317"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
