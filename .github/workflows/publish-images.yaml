@@ -12,6 +12,8 @@ on:
           - devops-tools
           - clickhouse-server
           - ubuntu-base
+          - otel-collector
+          - jaeger
       imageVersion:
         description: 'Image version'
         required: true
