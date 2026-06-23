@@ -69,7 +69,7 @@ docker run --rm \
   -v /opt/broadcast:/opt/broadcast \
   -e BROADCAST_DOMAIN="broadcast.example.com" \
   -e BROADCAST_LICENSE_KEY="xxxxx-xxxxx-xxxxx-xx" \
-  zcloudws/broadcast:1.0.0 install
+  zcloudws/broadcast:latest install
 ```
 
 The launcher stores generated config, PostgreSQL data, uploads, logs, and TLS
@@ -93,7 +93,7 @@ docker run --rm \
   -e BROADCAST_DOMAIN="broadcast.example.com" \
   -e BROADCAST_LICENSE_KEY="xxxxx-xxxxx-xxxxx-xx" \
   -e BROADCAST_VERSION="2.0.0" \
-  zcloudws/broadcast:1.0.0 install
+  zcloudws/broadcast:latest install
 ```
 
 If Broadcast gives you a full image reference, you can use `BROADCAST_IMAGE`
@@ -122,17 +122,17 @@ Use the same volume and project name when running management commands:
 docker run --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /opt/broadcast:/opt/broadcast \
-  zcloudws/broadcast:1.0.0 status
+  zcloudws/broadcast:latest status
 
 docker run --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /opt/broadcast:/opt/broadcast \
-  zcloudws/broadcast:1.0.0 logs
+  zcloudws/broadcast:latest logs
 
 docker run --rm \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /opt/broadcast:/opt/broadcast \
-  zcloudws/broadcast:1.0.0 stop
+  zcloudws/broadcast:latest stop
 ```
 
 ## Environment variables
