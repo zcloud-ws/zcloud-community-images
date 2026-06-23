@@ -6,6 +6,7 @@
 - [Meteor NodeJS with MongoDB](meteor-tools/meteor-node-mongodb-runtime/README.md) [:link:](https://hub.docker.com/r/zcloudws/meteor-node-mongodb-runtime "Image repository"): Nodejs runtime from Meteor with
   MongoDB
 - [MQTT Mosquitto](mqtt/README.md) [:link:](https://hub.docker.com/r/zcloudws/mqtt-mosquitto "Image repository"): MQTT Mosquitto
+- [Broadcast private wrapper](broadcast/README.md): Customer-owned private wrapper template for licensed Broadcast deployments. This is not a public Broadcast image and Quave is not affiliated with Broadcast/Furvur Inc.
 
 ## Docker HUB images
 [zcloudws](https://hub.docker.com/u/zcloudws)
