@@ -1,27 +1,36 @@
 # syntax=docker/dockerfile:1
 #
-# Customer-built Broadcast wrapper image.
+# Public Broadcast installer/launcher image for licensed customers.
 #
-# This Dockerfile intentionally does not download, vendor, or redistribute
-# Broadcast. It only lets a licensed Broadcast customer build a private wrapper
-# image from the official Broadcast image that their license allows them to pull.
-#
-# Usage:
-#   docker login "$BROADCAST_REGISTRY_URL" \
-#     --username "$BROADCAST_REGISTRY_USERNAME" \
-#     --password-stdin
-#   docker build \
-#     --build-arg BROADCAST_IMAGE="$BROADCAST_IMAGE" \
-#     -t ghcr.io/YOUR_ORG/broadcast:YOUR_TAG \
-#     broadcast
-#
-# Keep the resulting image private unless Broadcast/Furvur explicitly authorizes
-# redistribution.
+# This image does NOT contain Broadcast application code or binaries. It contains
+# Quave's Docker-based launcher that validates the customer's Broadcast license,
+# logs in to Broadcast's registry using credentials returned by Broadcast, and
+# starts the official Broadcast containers on the customer's Docker host.
 
-ARG BROADCAST_IMAGE=gitea.hostedapp.org/broadcast/broadcast:latest
-FROM ${BROADCAST_IMAGE}
+FROM docker:27-cli
 
-LABEL org.opencontainers.image.title="Broadcast private customer wrapper"
-LABEL org.opencontainers.image.description="Private wrapper for licensed Broadcast customers. Does not contain Quave-owned Broadcast code and is not published by Quave."
-LABEL org.opencontainers.image.vendor="Customer-built; not affiliated with Broadcast or Furvur Inc."
-LABEL com.quave-one.template="broadcast-private-wrapper"
+ARG IMAGE_VERSION=dev
+
+LABEL org.opencontainers.image.title="Broadcast Docker launcher for licensed customers"
+LABEL org.opencontainers.image.description="Public Quave launcher image. It does not include Broadcast software; customers must provide their own Broadcast license at runtime."
+LABEL org.opencontainers.image.vendor="Quave"
+LABEL org.opencontainers.image.version="${IMAGE_VERSION}"
+LABEL com.quave-one.template="broadcast-docker-launcher"
+LABEL com.quave-one.broadcast.affiliation="Quave is not affiliated with Broadcast or Furvur Inc."
+
+RUN apk add --no-cache \
+    bash \
+    ca-certificates \
+    curl \
+    docker-cli-compose \
+    jq \
+    openssl
+
+WORKDIR /launcher
+
+COPY entrypoint.sh /usr/local/bin/broadcast-launcher
+
+RUN chmod +x /usr/local/bin/broadcast-launcher
+
+ENTRYPOINT ["broadcast-launcher"]
+CMD ["install"]

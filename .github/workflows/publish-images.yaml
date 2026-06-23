@@ -9,6 +9,7 @@ on:
         default: '1.0.0'
         type: choice
         options:
+          - broadcast
           - clickhouse-server
           - devops-tools
           - jaeger
