@@ -34,4 +34,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push image
+        env:
+          ZC_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          ZC_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         run: cd "${{ inputs.image }}" && ./push.sh "${{ inputs.imageVersion }}"
