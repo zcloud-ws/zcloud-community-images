@@ -1,0 +1,8 @@
+export IMAGE_REPO="zcloudws"
+export IMAGE_NAME="meteor-build"
+export IMAGE_TAG="3.5"
+export INIT_COMMAND_VARS="export NODE_TLS_REJECT_UNAUTHORIZED=0"
+export PACKAGES="build-essential python3"
+export METEOR_BOOTSTRAP_VERSION="3.4.1"
+export METEOR_TOOL_VERSION="3.5.0"
+export PRE_CACHE_COMMAND="/home/zcloud/bin/meteor --version"

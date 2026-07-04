@@ -1,0 +1,6 @@
+export IMAGE_REPO="zcloudws"
+export IMAGE_NAME="meteor-node-mongodb-runtime"
+export IMAGE_TAG="3.5"
+export INIT_COMMAND_VARS=""
+export PACKAGES="python3"
+export METEOR_TOOL_VERSION="3.5.0"
