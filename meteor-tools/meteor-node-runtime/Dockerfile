@@ -1,4 +1,5 @@
 ARG BASE_IMAGE
+ARG RUNTIME_BASE_IMAGE=docker.io/zcloudws/ubuntu-base:22.04
 
 FROM $BASE_IMAGE as builder
 
@@ -15,7 +16,7 @@ USER zcloud
 RUN export DEV_BUNDLE_DIR=.meteor/packages/meteor-tool/${METEOR_TOOL_VERSION}/mt-os.linux.x86_64/dev_bundle && \
     cp -r $DEV_BUNDLE_DIR/{bin,lib} /tmp/tools/.node/
 
-FROM docker.io/zcloudws/ubuntu-base:22.04
+FROM $RUNTIME_BASE_IMAGE
 
 USER root
 
@@ -30,4 +31,3 @@ COPY scripts /scripts
 USER zcloud
 
 ENTRYPOINT ["/scripts/startup.sh"]
-

@@ -1,4 +1,5 @@
 ARG BASE_IMAGE
+ARG RUNTIME_BASE_IMAGE=docker.io/zcloudws/ubuntu-base:22.04
 
 FROM $BASE_IMAGE as builder
 
@@ -16,7 +17,7 @@ RUN export DEV_BUNDLE_DIR=.meteor/packages/meteor-tool/$METEOR_TOOL_VERSION/mt-o
     cp -r $DEV_BUNDLE_DIR/{bin,lib} /tmp/tools/.node && \
     cp -r $DEV_BUNDLE_DIR/mongodb/bin /tmp/tools/.mongodb/
 
-FROM docker.io/zcloudws/ubuntu-base:22.04
+FROM $RUNTIME_BASE_IMAGE
 
 USER root
 

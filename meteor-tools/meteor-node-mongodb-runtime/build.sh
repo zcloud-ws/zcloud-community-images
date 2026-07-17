@@ -28,6 +28,7 @@ export IMAGE="${IMAGE_REPO}/${IMAGE_NAME}:${METEOR_VERSION}"
 
 docker build -t "${IMAGE}" \
     --build-arg BASE_IMAGE="zcloudws/meteor-build:${METEOR_VERSION}" \
+    --build-arg RUNTIME_BASE_IMAGE="${RUNTIME_BASE_IMAGE:-docker.io/zcloudws/ubuntu-base:22.04}" \
     --build-arg METEOR_TOOL_VERSION="${METEOR_TOOL_VERSION:-"*.*.*"}" \
     .
 
