@@ -36,6 +36,10 @@ Tools for image tag suffix `VERSION-with-tools`:
 - `build-essential`
 - `python2 (old Meteor versions)` or `python3`
 
+# Node.js security hotfix images
+
+When Node.js ships a security fix before Meteor, see [node-hotfix](node-hotfix/README.md) for a parallel release path that patches only the Node binary.
+
 # Build Meteor image version
 
 ## Using GitHub actions
