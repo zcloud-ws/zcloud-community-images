@@ -1,0 +1,48 @@
+name: Meteor Runtime Node.js hotfix images
+
+# Parallel path to meteor-runtime-images.yaml: layers an official, verified
+# Node.js binary on top of the published Meteor runtime images when Node ships
+# a security fix before Meteor does. Publishes <meteor>-node<node>[-variant]
+# tags; the regular <meteor> tags are never touched.
+on:
+  workflow_dispatch:
+    inputs:
+      meteorVersion:
+        description: 'Meteor version of the published base images (e.g. 3.5.3)'
+        required: true
+        type: string
+      nodeVersion:
+        description: 'Patched Node.js version (e.g. 24.22.1)'
+        required: true
+        type: string
+      push:
+        description: 'Push the images to Docker Hub (false = build and smoke-test only)'
+        required: true
+        default: false
+        type: boolean
+      allowMajorChange:
+        description: 'Allow a Node.js major different from the base image (breaks native modules)'
+        required: false
+        default: false
+        type: boolean
+jobs:
+  NodeHotfixImages:
+    name: Meteor ${{ inputs.meteorVersion }} + Node ${{ inputs.nodeVersion }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build and smoke-test hotfix images
+        env:
+          METEOR_VERSION: ${{ inputs.meteorVersion }}
+          NODE_VERSION: ${{ inputs.nodeVersion }}
+          ALLOW_MAJOR_CHANGE: ${{ inputs.allowMajorChange && '1' || '0' }}
+        run: ./meteor-tools/node-hotfix/build.sh "$METEOR_VERSION" "$NODE_VERSION"
+      - name: Login to Docker Hub
+        if: ${{ inputs.push }}
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push hotfix images
+        if: ${{ inputs.push }}
+        run: ./meteor-tools/node-hotfix/push.sh
