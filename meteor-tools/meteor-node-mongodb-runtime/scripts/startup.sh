@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-set -e -x
+set -e
+
+# Shell tracing writes to stderr, so it shows up as errors in the app logs on
+# every start. Set STARTUP_TRACE=true to turn it on while debugging startup.
+if [ "${STARTUP_TRACE}" == "true" ]; then
+  set -x
+fi
 
 BUNDLE_FILE=${BUNDLE_FILE:-"/bundle/bundle.tar.gz"}
 APP_DIR=${APP_DIR:-"$HOME/app"}
@@ -31,11 +37,11 @@ export PORT=${PORT:-3000}
 if [ -f "/built_app/main.js" ]; then
   echo "Starting app on port :$PORT ..."
   cd /built_app
-  node main.js
+  exec node main.js
 else
   if [ -f "${APP_DIR}/main.js" ]; then
     echo "Starting app on port :$PORT ..."
     cd "${APP_DIR}"
-    node main.js
+    exec node main.js
   fi
 fi
