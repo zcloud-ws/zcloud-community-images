@@ -18,6 +18,10 @@ docker run --rm --name meteor-app -it \
 
 - To disable npm running on startup use environment variable `RUN_NPM_INSTALL=false`
 
+# Startup trace
+
+- The startup script does not print a shell trace by default, because the trace goes to stderr and shows up as errors in app logs. To debug startup, use environment variable `STARTUP_TRACE=true`
+
 # Meteor UP
 
 This image is compatible with [Meteor UP](https://meteor-up.com/).
