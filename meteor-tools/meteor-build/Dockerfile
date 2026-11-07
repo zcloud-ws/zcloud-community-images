@@ -23,6 +23,12 @@ COPY files/zcloud-profile.sh /etc/profile.d/zcloud-profile.sh
 
 RUN chmod +x /etc/profile.d/zcloud-profile.sh
 
+# Trust the Quave One root CA that the platform mounts in every container, so
+# Node.js reaches platform services with internal certificates (e.g. managed
+# MongoDB). Additive to Node's bundled roots; Node only warns when the file is
+# missing (outside Quave One).
+ENV NODE_EXTRA_CA_CERTS=/quave-one-tls/ca.crt
+
 USER zcloud
 
 RUN set -eux; \

@@ -36,6 +36,15 @@ Tools for image tag suffix `VERSION-with-tools`:
 - `build-essential`
 - `python2 (old Meteor versions)` or `python3`
 
+# Quave One root CA
+
+`meteor-build`, `meteor-node-runtime` and `meteor-node-mongodb-runtime` (and
+their `-with-tools*` and hotfix variants) set
+`NODE_EXTRA_CA_CERTS=/quave-one-tls/ca.crt`. Quave One mounts its root CA there
+in every container, so Node trusts internal certificates such as managed
+MongoDB, including apps with a custom Dockerfile. Tags built before this change
+(3.5.4 and older, except the 3.5.4 re-release) do not have it.
+
 # Node.js security hotfix images
 
 When Node.js ships a security fix before Meteor, see [node-hotfix](node-hotfix/README.md) for a parallel release path that patches only the Node binary.
