@@ -20,6 +20,10 @@ FROM $RUNTIME_BASE_IMAGE
 
 USER root
 
+# Node 26+ (Meteor 3.6+) links libatomic.so.1, which ubuntu-base lacks.
+RUN apt-get update && apt-get install -y --no-install-recommends libatomic1 && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder /tmp/tools/.node /opt/zcloud/nodejs/
 
 RUN mkdir /built_app && chown zcloud:zcloud -R /built_app
